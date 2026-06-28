@@ -27,7 +27,6 @@ body{background:var(--bg);color:var(--txt);font-family:var(--body);min-height:10
 .hdr-title-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:10px}
 .hdr-llaves{font-family:'Anton',sans-serif;font-size:clamp(50px,10vw,104px);line-height:.9;background:linear-gradient(135deg,var(--gold-dk) 0%,var(--gold-lt) 45%,var(--gold) 65%,var(--gold-dk) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hdr-divider{width:3px;height:clamp(38px,7vw,72px);background:linear-gradient(180deg,transparent,var(--gold),transparent)}
-.hdr-right{text-align:left}
 .hdr-right .r1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(13px,2.8vw,22px);font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.75);line-height:1.1}
 .hdr-right .r2{font-family:'Barlow Condensed',sans-serif;font-size:clamp(18px,4vw,36px);font-weight:900;letter-spacing:2px;color:#fff;line-height:1}
 .hdr-hosts{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:10px}
@@ -40,7 +39,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--body);min-height:10
 .btn-reset{background:transparent;color:var(--txt2);border:1px solid var(--bd);padding:5px 14px;border-radius:4px;font-family:var(--body);font-size:12px;cursor:pointer}
 .btn-reset:hover{color:var(--txt);border-color:var(--bd2)}
 .bracket-outer{overflow-x:auto;padding:1rem}
-.bracket{display:flex;align-items:stretch;min-width:1400px;gap:0}
+.bracket{display:flex;align-items:stretch;min-width:1400px}
 .round-col{display:flex;flex-direction:column;width:158px;flex-shrink:0}
 .round-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--txt2);text-align:center;padding:6px 0 8px;border-bottom:1px solid var(--bd);text-transform:uppercase}
 .round-body{flex:1;display:flex;flex-direction:column;justify-content:space-around;padding:6px}
@@ -55,7 +54,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--body);min-height:10
 .mfph{width:19px;height:14px;background:var(--bg3);border-radius:1px;flex-shrink:0}
 .mn{font-size:11px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mn.tbd{color:var(--txt3);font-size:10px;font-weight:400;font-style:italic}
-.mc{font-size:9px;color:var(--gold);flex-shrink:0;opacity:0;transition:opacity .15s}
+.mc{font-size:9px;color:var(--gold);flex-shrink:0;opacity:0}
 .mt.win .mc{opacity:1}
 .conn-col{width:30px;flex-shrink:0;position:relative;align-self:stretch}
 .conn-col svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
@@ -73,7 +72,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--body);min-height:10
 .tercer-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--txt2);text-align:center;padding:4px;border-bottom:1px solid var(--bd);text-transform:uppercase}
 .name-sec{background:var(--bg2);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:1rem 1.5rem;margin:1rem;text-align:center}
 .name-sec p{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-.name-inp{background:var(--bg3);border:1px solid var(--bd);border-radius:6px;padding:10px 14px;font-family:var(--body);font-size:14px;color:var(--txt);width:100%;max-width:300px;text-align:center;outline:none;transition:border-color .15s}
+.name-inp{background:var(--bg3);border:1px solid var(--bd);border-radius:6px;padding:10px 14px;font-family:var(--body);font-size:14px;color:var(--txt);width:100%;max-width:300px;text-align:center;outline:none}
 .name-inp:focus{border-color:var(--gold)}
 .name-inp::placeholder{color:var(--txt2)}
 .name-inp.err{border-color:#e53935!important}
@@ -141,24 +140,23 @@ var OV={'SCT':'https://flagcdn.com/w40/gb-sct.png','ENG':'https://flagcdn.com/w4
 function fSrc(c){return OV[c]?OV[c]:FM[c]?(TW+FM[c]+'.png'):null;}
 function fEl(c){var s=fSrc(c);return s?'<img class="mf" src="'+s+'" loading="lazy">':'<div class="mfph"></div>';}
 
-// Los 16 cruces — lado A: 0-7, lado B: 8-15
 var R16=[
-  {a:{n:'Sudáfrica',c:'ZA'},b:{n:'Canadá',c:'CA'}},      // 0
-  {a:{n:'Brasil',c:'BR'},b:{n:'Japón',c:'JP'}},            // 1
-  {a:{n:'Alemania',c:'DE'},b:{n:'Paraguay',c:'PY'}},       // 2
-  {a:{n:'Países Bajos',c:'NL'},b:{n:'Marruecos',c:'MA'}}, // 3
-  {a:{n:'Costa de Marfil',c:'CI'},b:{n:'Noruega',c:'NO'}},// 4
-  {a:{n:'Francia',c:'FR'},b:{n:'Suecia',c:'SE'}},          // 5
-  {a:{n:'México',c:'MX'},b:{n:'Ecuador',c:'EC'}},          // 6
-  {a:{n:'Inglaterra',c:'ENG'},b:{n:'RD del Congo',c:'CD'}},// 7
-  {a:{n:'EE. UU.',c:'US'},b:{n:'Bosnia',c:'BA'}},          // 8
-  {a:{n:'Egipto',c:'EG'},b:{n:'Corea del Sur',c:'KR'}},   // 9
-  {a:{n:'España',c:'ES'},b:{n:'Austria',c:'AT'}},          // 10
-  {a:{n:'Portugal',c:'PT'},b:{n:'Ghana',c:'GH'}},          // 11
-  {a:{n:'Bélgica',c:'BE'},b:{n:'Argelia',c:'DZ'}},         // 12
-  {a:{n:'Suiza',c:'CH'},b:{n:'Irán',c:'IR'}},              // 13
-  {a:{n:'Argentina',c:'AR'},b:{n:'Cabo Verde',c:'CV'}},    // 14
-  {a:{n:'Colombia',c:'CO'},b:{n:'Australia',c:'AU'}}       // 15
+  {a:{n:'Sudáfrica',c:'ZA'},b:{n:'Canadá',c:'CA'}},
+  {a:{n:'Brasil',c:'BR'},b:{n:'Japón',c:'JP'}},
+  {a:{n:'Alemania',c:'DE'},b:{n:'Paraguay',c:'PY'}},
+  {a:{n:'Países Bajos',c:'NL'},b:{n:'Marruecos',c:'MA'}},
+  {a:{n:'Costa de Marfil',c:'CI'},b:{n:'Noruega',c:'NO'}},
+  {a:{n:'Francia',c:'FR'},b:{n:'Suecia',c:'SE'}},
+  {a:{n:'México',c:'MX'},b:{n:'Ecuador',c:'EC'}},
+  {a:{n:'Inglaterra',c:'ENG'},b:{n:'RD del Congo',c:'CD'}},
+  {a:{n:'EE. UU.',c:'US'},b:{n:'Bosnia',c:'BA'}},
+  {a:{n:'Egipto',c:'EG'},b:{n:'Corea del Sur',c:'KR'}},
+  {a:{n:'España',c:'ES'},b:{n:'Austria',c:'AT'}},
+  {a:{n:'Portugal',c:'PT'},b:{n:'Ghana',c:'GH'}},
+  {a:{n:'Bélgica',c:'BE'},b:{n:'Argelia',c:'DZ'}},
+  {a:{n:'Suiza',c:'CH'},b:{n:'Irán',c:'IR'}},
+  {a:{n:'Argentina',c:'AR'},b:{n:'Cabo Verde',c:'CV'}},
+  {a:{n:'Colombia',c:'CO'},b:{n:'Australia',c:'AU'}}
 ];
 
 var W={r16:new Array(16).fill(null),qf:new Array(8).fill(null),sf:new Array(4).fill(null),f:[null,null],champ:null,third:null};
@@ -180,7 +178,6 @@ function gSL(i){
   var a=i===0?W.sf[0]:W.sf[2],b=i===0?W.sf[1]:W.sf[3],w=W.f[i];
   if(!w||!a||!b)return null;return w.n===a.n?b:a;
 }
-
 function tr(team,win,lose,oc){
   if(!team)return '<div class="mt empty"><div class="mfph"></div><span class="mn tbd">Por definir</span></div>';
   var cls='mt'+(win?' win':'')+(lose?' lose':'');
@@ -192,7 +189,6 @@ function mCard(a,b,win,round,idx){
   var oB=b?'pick(\''+round+'\','+idx+',{n:\''+b.n.replace(/'/g,"\\'")+'\',c:\''+b.c+'\'})':'';
   return '<div class="match">'+tr(a,wA,win&&a&&!wA,oA)+tr(b,wB,win&&b&&!wB,oB)+'</div>';
 }
-
 function col(label,items,pfx){
   var h='<div class="round-col"><div class="round-label">'+label+'</div><div class="round-body">';
   items.forEach(function(m,i){h+='<div id="'+pfx+'_'+i+'">'+m+'</div>';});
@@ -202,11 +198,10 @@ function col(label,items,pfx){
 function cc(id){return '<div class="conn-col" id="cc_'+id+'"><svg id="svgc_'+id+'"></svg></div>';}
 
 function render(){
-  var sl0=gSL(0),sl1=gSL(1);
-  var fA=W.f[0],fB=W.f[1],ch=W.champ,th=W.third;
+  var sl0=gSL(0),sl1=gSL(1),fA=W.f[0],fB=W.f[1],ch=W.champ,th=W.third;
   var h='';
 
-  // LADO A: 16avos(0-7) -> octavos(0-3) -> cuartos(0-1) -> semi A
+  // LADO A (izq->der): 16avos -> octavos -> cuartos -> semi
   var r16a=[],qfa=[],sfa=[];
   for(var i=0;i<8;i++) r16a.push(mCard(R16[i].a,R16[i].b,W.r16[i],'r16',i));
   for(var i=0;i<4;i++) qfa.push(mCard(W.r16[i*2],W.r16[i*2+1],W.qf[i],'qf',i));
@@ -214,11 +209,11 @@ function render(){
   var semA=mCard(W.sf[0],W.sf[1],W.f[0],'f',0);
 
   h+=col('Dieciseisavos',r16a,'ra');
-  h+=cc('a1');
+  h+=cc('a1'); // ra -> qa
   h+=col('Octavos',qfa,'qa');
-  h+=cc('a2');
+  h+=cc('a2'); // qa -> sa
   h+=col('Cuartos',sfa,'sa');
-  h+=cc('a3');
+  h+=cc('a3'); // sa -> fa
   h+=col('Semifinal',[semA],'fa');
 
   // CENTRO
@@ -235,8 +230,16 @@ function render(){
   h+='<div class="tercer-box"><div class="tercer-lbl">3er Puesto</div>'+tr(sl0,th&&sl0&&th.n===sl0.n,th&&sl0&&th.n!==sl0.n,ocT0)+tr(sl1,th&&sl1&&th.n===sl1.n,th&&sl1&&th.n!==sl1.n,ocT1)+'</div>';
   h+='</div></div>';
 
-  // LADO B ESPEJO: semi B -> cuartos(2-3) -> octavos(4-7) -> 16avos(8-15)
-  // El orden es: semi, cuartos, octavos, 16avos (espejo del lado A)
+  // LADO B ESPEJO (der->izq desde el centro):
+  // semi -> cuartos -> octavos -> 16avos
+  // Los conectores deben unir: fb->sb (semi a cuartos), sb->qb (cuartos a octavos), qb->rb (octavos a 16avos)
+  // En el layout el conector está ENTRE las columnas, la columna derecha alimenta a la izquierda
+  // Pero visualmente las líneas van de la columna más cercana al centro hacia afuera
+  // Entonces: el conector entre 'fb' y 'sb' une fb(izq) con sb(der) -> toRight=true
+  // el conector entre 'sb' y 'qb' une sb(izq) con qb(der) -> toRight=true
+  // el conector entre 'qb' y 'rb' une qb(izq) con rb(der) -> toRight=true
+  // PERO los grupos se invierten: en lado B, 1 partido de fb genera 2 de sb, etc.
+  // Entonces fb es el "pequeño" y sb es el "grande"
   var semB=mCard(W.sf[2],W.sf[3],W.f[1],'f',1);
   var sfb=[],qfb=[],r16b=[];
   for(var i=2;i<4;i++) sfb.push(mCard(W.qf[i*2],W.qf[i*2+1],W.sf[i],'sf',i));
@@ -244,70 +247,114 @@ function render(){
   for(var i=8;i<16;i++) r16b.push(mCard(R16[i].a,R16[i].b,W.r16[i],'r16',i));
 
   h+=col('Semifinal',[semB],'fb');
-  h+=cc('b3');
+  h+=cc('b3'); // fb(1) -> sb(2): from=fb, to=sb, toRight=true, gs=1
   h+=col('Cuartos',sfb,'sb');
-  h+=cc('b2');
+  h+=cc('b2'); // sb(2) -> qb(4): from=sb, to=qb, toRight=true, gs=1
   h+=col('Octavos',qfb,'qb');
-  h+=cc('b1');
+  h+=cc('b1'); // qb(4) -> rb(8): from=qb, to=rb, toRight=true, gs=1
   h+=col('Dieciseisavos',r16b,'rb');
 
   document.getElementById('bracket').innerHTML=h;
-  setTimeout(drawAll,60);
+  setTimeout(drawAll,80);
 }
 
 function drawAll(){
-  var LC='rgba(201,168,76,0.28)';
-  // Lado A: de izq a der
-  drawC('a1','ra',8,'qa',4,2,true,LC);
-  drawC('a2','qa',4,'sa',2,2,true,LC);
-  drawC('a3','sa',2,'fa',1,2,true,LC);
-  // Lado B: también de izq a der (semi -> cuartos -> octavos -> 16avos)
-  // pero aquí el "left" es el que está más cerca del centro
-  drawC('b3','fb',1,'sb',2,2,true,LC);
-  drawC('b2','sb',2,'qb',4,2,true,LC);
-  drawC('b1','qb',4,'rb',8,2,true,LC);
+  var LC='rgba(201,168,76,0.3)';
+  // LADO A: cada conector agrupa pares de la columna izquierda hacia 1 de la derecha
+  // ra(8)->qa(4): groupSize=2, desde ra hacia qa
+  drawConn('a1','ra',8,'qa',4,2,true,LC);
+  // qa(4)->sa(2): groupSize=2
+  drawConn('a2','qa',4,'sa',2,2,true,LC);
+  // sa(2)->fa(1): groupSize=2
+  drawConn('a3','sa',2,'fa',1,2,true,LC);
+
+  // LADO B: espejo. Ahora la columna "izquierda" en el SVG es la más cercana al centro
+  // pero en la lógica, 1 partido de fb "genera" 2 de sb, 2 de sb generan 4 de qb, etc.
+  // El SVG está entre fb y sb: fb está a la izquierda, sb a la derecha
+  // Queremos mostrar que fb(1) se divide en sb(2)
+  // Es decir: desde fb hacia sb -> groupSize=2 pero ahora es 1->2 (inverso)
+  // Usaremos la misma función pero invirtiendo: "derecha" agrupa hacia "izquierda"
+  drawConnInv('b3','fb',1,'sb',2,2,LC);
+  drawConnInv('b2','sb',2,'qb',4,2,LC);
+  drawConnInv('b1','qb',4,'rb',8,2,LC);
 }
 
-// toRight=true: las líneas van del borde izquierdo del svg al derecho
-// toRight=false: las líneas van del borde derecho al izquierdo
-function drawC(svgId,lPfx,lN,rPfx,rN,gs,toRight,color){
+// drawConn: los items de lPfx se agrupan de a gs y apuntan a 1 item de rPfx
+// toRight=true: el SVG está entre lPfx(izq) y rPfx(der)
+function drawConn(svgId,lPfx,lN,rPfx,rN,gs,toRight,color){
   var svg=document.getElementById('svgc_'+svgId);
   var cc=document.getElementById('cc_'+svgId);
   if(!svg||!cc)return;
   var R=cc.getBoundingClientRect();
-  var W2=Math.max(R.width,30), H=Math.max(R.height,100);
+  var W2=Math.max(R.width,30),H=Math.max(R.height,100);
   svg.setAttribute('viewBox','0 0 '+W2+' '+H);
   svg.setAttribute('width',W2);svg.setAttribute('height',H);
   svg.innerHTML='';
-
-  // xFrom = lado donde salen las líneas (del partido izquierdo)
-  // xTo = lado donde llegan (al partido derecho)
-  var xFrom=toRight?0:W2;
-  var xTo=toRight?W2:0;
-  var xMid=W2/2;
-
+  var xFrom=toRight?0:W2, xTo=toRight?W2:0, xMid=W2/2;
   for(var g=0;g<rN;g++){
-    var t1=document.getElementById(lPfx+'_'+(g*gs));
-    var t2=document.getElementById(lPfx+'_'+(g*gs+gs-1));
-    var rEl=document.getElementById(rPfx+'_'+g);
-    if(!t1||!t2||!rEl)continue;
-    var r1=t1.getBoundingClientRect(),r2=t2.getBoundingClientRect(),rR=rEl.getBoundingClientRect();
+    var e1=document.getElementById(lPfx+'_'+(g*gs));
+    var e2=document.getElementById(lPfx+'_'+(g*gs+gs-1));
+    var eR=document.getElementById(rPfx+'_'+g);
+    if(!e1||!e2||!eR)continue;
+    var r1=e1.getBoundingClientRect(),r2=e2.getBoundingClientRect(),rR=eR.getBoundingClientRect();
     var y1=r1.top+r1.height/2-R.top;
     var y2=r2.top+r2.height/2-R.top;
     var yM=(y1+y2)/2;
     var yR=rR.top+rR.height/2-R.top;
-    ln(svg,xFrom,y1,xMid,y1,color,1.5);
-    ln(svg,xFrom,y2,xMid,y2,color,1.5);
-    ln(svg,xMid,y1,xMid,y2,color,1.5);
+    ln(svg,xFrom,y1,xMid,y1,color);
+    ln(svg,xFrom,y2,xMid,y2,color);
+    ln(svg,xMid,y1,xMid,y2,color);
     dt(svg,xMid,yM,3,color);
-    ln(svg,xMid,yM,xTo,yR,color,1.5);
-    dt(svg,xTo,yR,2.5,'rgba(201,168,76,0.5)');
+    ln(svg,xMid,yM,xTo,yR,color);
+    dt(svg,xTo,yR,2.5,'rgba(201,168,76,0.55)');
   }
 }
-function ln(svg,x1,y1,x2,y2,col,w){
+
+// drawConnInv: para el lado B. rPfx tiene MÁS items que lPfx.
+// 1 item de lPfx "expande" a gs items de rPfx
+// El SVG está entre lPfx(izq) y rPfx(der)
+// Líneas: desde lPfx hacia la derecha, bifurcando hacia los items de rPfx
+function drawConnInv(svgId,lPfx,lN,rPfx,rN,gs,color){
+  var svg=document.getElementById('svgc_'+svgId);
+  var cc=document.getElementById('cc_'+svgId);
+  if(!svg||!cc)return;
+  var R=cc.getBoundingClientRect();
+  var W2=Math.max(R.width,30),H=Math.max(R.height,100);
+  svg.setAttribute('viewBox','0 0 '+W2+' '+H);
+  svg.setAttribute('width',W2);svg.setAttribute('height',H);
+  svg.innerHTML='';
+  var xMid=W2/2;
+  // Para cada item de lPfx, conecta con gs items de rPfx
+  for(var g=0;g<lN;g++){
+    var eL=document.getElementById(lPfx+'_'+g);
+    if(!eL)continue;
+    var rL=eL.getBoundingClientRect();
+    var yL=rL.top+rL.height/2-R.top;
+    // los gs items de rPfx correspondientes
+    var e1=document.getElementById(rPfx+'_'+(g*gs));
+    var e2=document.getElementById(rPfx+'_'+(g*gs+gs-1));
+    if(!e1||!e2)continue;
+    var r1=e1.getBoundingClientRect(),r2=e2.getBoundingClientRect();
+    var y1=r1.top+r1.height/2-R.top;
+    var y2=r2.top+r2.height/2-R.top;
+    var yM=(y1+y2)/2;
+    // línea horizontal desde lPfx (izq) hacia el punto medio
+    ln(svg,0,yL,xMid,yM,color);
+    // línea vertical en el medio
+    ln(svg,xMid,y1,xMid,y2,color);
+    // líneas horizontales hacia cada item de rPfx (der)
+    ln(svg,xMid,y1,W2,y1,color);
+    ln(svg,xMid,y2,W2,y2,color);
+    dt(svg,xMid,yM,3,color);
+    dt(svg,W2,y1,2.5,'rgba(201,168,76,0.55)');
+    dt(svg,W2,y2,2.5,'rgba(201,168,76,0.55)');
+  }
+}
+
+function ln(svg,x1,y1,x2,y2,col){
   var l=document.createElementNS('http://www.w3.org/2000/svg','line');
   l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
-  l.setAttribute('stroke',col);l.setAttribute('stroke-width',w||1.5);svg.appendChild(l);
+  l.setAttribute('stroke',col);l.setAttribute('stroke-width','1.5');svg.appendChild(l);
 }
 function dt(svg,x,y,r,col){
   var c=document.createElementNS('http://www.w3.org/2000/svg','circle');
@@ -342,7 +389,6 @@ async function compartir(){
     else{var a=document.createElement('a');a.download='llaves_mundial2026.png';a.href=URL.createObjectURL(blob);a.click();setTimeout(function(){window.open('https://wa.me/','_blank');},800);}
   }catch(e){document.getElementById('overlay').classList.remove('show');}
 }
-
 window.addEventListener('resize',function(){setTimeout(drawAll,50);});
 render();
 </script>
