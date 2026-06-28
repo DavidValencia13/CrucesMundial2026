@@ -167,22 +167,24 @@ function fSrc(c){return OV[c]?OV[c]:FM[c]?(TW+FM[c]+'.png'):null;}
 function fEl(c){var s=fSrc(c);return s?'<img class="mf" src="'+s+'" loading="lazy">':'<div class="mfph"></div>';}
 
 var R16=[
-  {a:{n:'Sudáfrica',c:'ZA'},b:{n:'Canadá',c:'CA'}},
-  {a:{n:'Brasil',c:'BR'},b:{n:'Japón',c:'JP'}},
+  // LADO A (izquierdo) - indices 0-7
   {a:{n:'Alemania',c:'DE'},b:{n:'Paraguay',c:'PY'}},
-  {a:{n:'Países Bajos',c:'NL'},b:{n:'Marruecos',c:'MA'}},
-  {a:{n:'Costa de Marfil',c:'CI'},b:{n:'Noruega',c:'NO'}},
   {a:{n:'Francia',c:'FR'},b:{n:'Suecia',c:'SE'}},
+  {a:{n:'Sudáfrica',c:'ZA'},b:{n:'Canadá',c:'CA'}},
+  {a:{n:'Países Bajos',c:'NL'},b:{n:'Marruecos',c:'MA'}},
+  {a:{n:'Portugal',c:'PT'},b:{n:'Croacia',c:'HR'}},
+  {a:{n:'España',c:'ES'},b:{n:'Austria',c:'AT'}},
+  {a:{n:'EE. UU.',c:'US'},b:{n:'Bosnia',c:'BA'}},
+  {a:{n:'Bélgica',c:'BE'},b:{n:'Senegal',c:'SN'}},
+  // LADO B (derecho) - indices 8-15
+  {a:{n:'Brasil',c:'BR'},b:{n:'Japón',c:'JP'}},
+  {a:{n:'Costa de Marfil',c:'CI'},b:{n:'Noruega',c:'NO'}},
   {a:{n:'México',c:'MX'},b:{n:'Ecuador',c:'EC'}},
   {a:{n:'Inglaterra',c:'ENG'},b:{n:'RD del Congo',c:'CD'}},
-  {a:{n:'EE. UU.',c:'US'},b:{n:'Bosnia',c:'BA'}},
-  {a:{n:'Egipto',c:'EG'},b:{n:'Corea del Sur',c:'KR'}},
-  {a:{n:'España',c:'ES'},b:{n:'Austria',c:'AT'}},
-  {a:{n:'Portugal',c:'PT'},b:{n:'Ghana',c:'GH'}},
-  {a:{n:'Bélgica',c:'BE'},b:{n:'Argelia',c:'DZ'}},
-  {a:{n:'Suiza',c:'CH'},b:{n:'Irán',c:'IR'}},
   {a:{n:'Argentina',c:'AR'},b:{n:'Cabo Verde',c:'CV'}},
-  {a:{n:'Colombia',c:'CO'},b:{n:'Australia',c:'AU'}}
+  {a:{n:'Australia',c:'AU'},b:{n:'Egipto',c:'EG'}},
+  {a:{n:'Suiza',c:'CH'},b:{n:'Argelia',c:'DZ'}},
+  {a:{n:'Colombia',c:'CO'},b:{n:'Ghana',c:'GH'}}
 ];
 
 var W={r16:new Array(16).fill(null),qf:new Array(8).fill(null),sf:new Array(4).fill(null),f:[null,null],champ:null,third:null};
