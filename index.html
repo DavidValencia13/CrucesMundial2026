@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Llaves Mundial 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;600;700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --gold:#C9A84C;--gold-lt:#F5D78E;--gold-dk:#8B6914;
+  --bg:#0a0a0a;--bg2:#141414;--bg3:#1e1e1e;
+  --bd:rgba(255,255,255,.08);--bd2:rgba(255,255,255,.14);
+  --txt:#f0f0f0;--txt2:#666;--txt3:#333;
+  --green:#00c85a;--green-dk:#009944;
+  --body:'DM Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);min-height:100vh}
+.hdr{position:relative;overflow:hidden;background:var(--bg);padding:2.5rem 1rem 1.75rem;text-align:center;border-bottom:1px solid var(--bd)}
+.tricolor{display:flex;height:4px;position:absolute;top:0;left:0;width:100%}
+.tricolor span{flex:1}
+.tc1{background:#B22234}.tc2{background:#fff}.tc3{background:#3C3B6E}
+.tc4{background:#006847}.tc5{background:#fff}.tc6{background:#CE1126}
+.tc7{background:#FF0000}.tc8{background:#fff}.tc9{background:#FF0000}
+.hdr-badge{display:inline-flex;align-items:center;gap:7px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);padding:5px 16px;border-radius:3px;margin-bottom:16px}
+.hdr-title-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:10px}
+.hdr-llaves{font-family:'Anton',sans-serif;font-size:clamp(50px,10vw,104px);line-height:.9;background:linear-gradient(135deg,var(--gold-dk) 0%,var(--gold-lt) 45%,var(--gold) 65%,var(--gold-dk) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdr-divider{width:3px;height:clamp(38px,7vw,72px);background:linear-gradient(180deg,transparent,var(--gold),transparent)}
+.hdr-right{text-align:left}
+.hdr-right .r1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(13px,2.8vw,22px);font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.75);line-height:1.1}
+.hdr-right .r2{font-family:'Barlow Condensed',sans-serif;font-size:clamp(18px,4vw,36px);font-weight:900;letter-spacing:2px;color:#fff;line-height:1}
+.hdr-hosts{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:10px}
+.host{display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--txt2)}
+.host img{width:20px;height:15px;object-fit:contain;border-radius:2px}
+.hdot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.15)}
+.hdr-hint{font-size:12px;color:var(--txt2);letter-spacing:.5px}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--bd)}
+.topbar span{font-size:12px;color:var(--txt2)}
+.btn-reset{background:transparent;color:var(--txt2);border:1px solid var(--bd);padding:5px 14px;border-radius:4px;font-family:var(--body);font-size:12px;cursor:pointer}
+.btn-reset:hover{color:var(--txt);border-color:var(--bd2)}
+.bracket-outer{overflow-x:auto;padding:1rem}
+.bracket{display:flex;align-items:stretch;min-width:1400px;gap:0}
+.round-col{display:flex;flex-direction:column;width:158px;flex-shrink:0}
+.round-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--txt2);text-align:center;padding:6px 0 8px;border-bottom:1px solid var(--bd);text-transform:uppercase}
+.round-body{flex:1;display:flex;flex-direction:column;justify-content:space-around;padding:6px}
+.match{border:1px solid var(--bd2);border-radius:6px;overflow:hidden;background:var(--bg2)}
+.mt{display:flex;align-items:center;gap:7px;padding:6px 8px;cursor:pointer;transition:background .12s;border-bottom:1px solid var(--bd);min-height:34px}
+.mt:last-child{border-bottom:none}
+.mt:hover:not(.empty){background:rgba(255,255,255,.05)}
+.mt.win{background:rgba(201,168,76,.13)!important;border-left:2px solid var(--gold)}
+.mt.lose{opacity:.25}
+.mt.empty{cursor:default}
+.mf{width:19px;height:14px;object-fit:contain;border-radius:1px;flex-shrink:0}
+.mfph{width:19px;height:14px;background:var(--bg3);border-radius:1px;flex-shrink:0}
+.mn{font-size:11px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mn.tbd{color:var(--txt3);font-size:10px;font-weight:400;font-style:italic}
+.mc{font-size:9px;color:var(--gold);flex-shrink:0;opacity:0;transition:opacity .15s}
+.mt.win .mc{opacity:1}
+.conn-col{width:30px;flex-shrink:0;position:relative;align-self:stretch}
+.conn-col svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ctr-col{width:186px;flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+.ctr-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);text-align:center;padding:6px 0 8px;border-bottom:1px solid rgba(201,168,76,.2);width:100%;text-transform:uppercase}
+.ctr-body{flex:1;display:flex;flex-direction:column;justify-content:space-around;align-items:center;width:100%;padding:8px 6px;gap:10px}
+.final-card{background:linear-gradient(160deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.3);border-radius:8px;overflow:hidden;width:100%}
+.vs-bar{text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:var(--txt2);padding:2px 0;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+.champ-box{text-align:center;padding:10px 8px;width:100%;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);border-radius:8px}
+.champ-lbl{font-family:'Barlow Condensed',sans-serif;font-size:9px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
+.champ-flag{width:28px;height:21px;object-fit:contain;border-radius:2px;margin:0 auto 4px;display:block}
+.champ-name{font-family:'Anton',sans-serif;font-size:20px;background:linear-gradient(135deg,var(--gold-dk),var(--gold-lt),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
+.champ-q{font-size:20px;color:var(--txt3)}
+.tercer-box{width:100%;background:var(--bg2);border:1px solid var(--bd2);border-radius:6px;overflow:hidden}
+.tercer-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--txt2);text-align:center;padding:4px;border-bottom:1px solid var(--bd);text-transform:uppercase}
+.name-sec{background:var(--bg2);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:1rem 1.5rem;margin:1rem;text-align:center}
+.name-sec p{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.name-inp{background:var(--bg3);border:1px solid var(--bd);border-radius:6px;padding:10px 14px;font-family:var(--body);font-size:14px;color:var(--txt);width:100%;max-width:300px;text-align:center;outline:none;transition:border-color .15s}
+.name-inp:focus{border-color:var(--gold)}
+.name-inp::placeholder{color:var(--txt2)}
+.name-inp.err{border-color:#e53935!important}
+.share-fixed{position:sticky;bottom:1.5rem;display:flex;justify-content:center;margin-top:1rem;z-index:10;pointer-events:none}
+.btn-share{background:var(--green);color:#000;border:none;padding:13px 30px;border-radius:50px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(0,200,90,.4);transition:background .15s,transform .1s;pointer-events:all}
+.btn-share:hover{background:var(--green-dk)}
+.btn-share:active{transform:scale(.97)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:16px}
+.overlay.show{display:flex}
+.spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.1);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.overlay p{color:var(--txt2);font-size:13px}
+canvas{display:none}
+</style>
+</head>
+<body>
+<div class="overlay" id="overlay"><div class="spinner"></div><p>Generando imagen...</p></div>
+<header class="hdr">
+  <div class="tricolor"><span class="tc1"></span><span class="tc2"></span><span class="tc3"></span><span class="tc4"></span><span class="tc5"></span><span class="tc6"></span><span class="tc7"></span><span class="tc8"></span><span class="tc9"></span></div>
+  <div class="hdr-badge">&#127942; Copa Mundial de la FIFA</div>
+  <div class="hdr-title-row">
+    <div class="hdr-llaves">LLAVES</div>
+    <div class="hdr-divider"></div>
+    <div class="hdr-right"><div class="r1">Fase</div><div class="r1">Eliminatoria</div><div class="r2">2026</div></div>
+  </div>
+  <div class="hdr-hosts">
+    <div class="host"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f1fa-1f1f8.png">EE. UU.</div>
+    <div class="hdot"></div>
+    <div class="host"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f1f2-1f1fd.png">M&eacute;xico</div>
+    <div class="hdot"></div>
+    <div class="host"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f1e8-1f1e6.png">Canad&aacute;</div>
+  </div>
+  <div class="hdr-hint">Toca el equipo ganador para avanzarlo a la siguiente ronda</div>
+</header>
+<div class="topbar">
+  <span>Dieciseisavos &rarr; Final</span>
+  <button class="btn-reset" onclick="resetAll()">&#8635; Reiniciar todo</button>
+</div>
+<div class="bracket-outer"><div class="bracket" id="bracket"></div></div>
+<div class="name-sec">
+  <p>&#9998; Tu nombre</p>
+  <input class="name-inp" id="userName" type="text" placeholder="Escribe tu nombre..." maxlength="30">
+</div>
+<div class="share-fixed">
+  <button class="btn-share" onclick="compartir()">&#128172; Compartir en WhatsApp</button>
+</div>
+<canvas id="cv"></canvas>
+<script>
+var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/';
+var FM={
+  'MX':'1f1f2-1f1fd','KR':'1f1f0-1f1f7','ZA':'1f1ff-1f1e6','CZ':'1f1e8-1f1ff',
+  'CA':'1f1e8-1f1e6','CH':'1f1e8-1f1ed','QA':'1f1f6-1f1e6','BA':'1f1e7-1f1e6',
+  'BR':'1f1e7-1f1f7','MA':'1f1f2-1f1e6','HT':'1f1ed-1f1f9',
+  'US':'1f1fa-1f1f8','PY':'1f1f5-1f1fe','AU':'1f1e6-1f1fa','TR':'1f1f9-1f1f7',
+  'DE':'1f1e9-1f1ea','EC':'1f1ea-1f1e8','CI':'1f1e8-1f1ee','CW':'1f1e8-1f1fc',
+  'NL':'1f1f3-1f1f1','JP':'1f1ef-1f1f5','TN':'1f1f9-1f1f3','SE':'1f1f8-1f1ea',
+  'BE':'1f1e7-1f1ea','EG':'1f1ea-1f1ec','IR':'1f1ee-1f1f7','NZ':'1f1f3-1f1ff',
+  'ES':'1f1ea-1f1f8','UY':'1f1fa-1f1fe','SA':'1f1f8-1f1e6','CV':'1f1e8-1f1fb',
+  'FR':'1f1eb-1f1f7','SN':'1f1f8-1f1f3','NO':'1f1f3-1f1f4','IQ':'1f1ee-1f1f6',
+  'AR':'1f1e6-1f1f7','AT':'1f1e6-1f1f9','DZ':'1f1e9-1f1ff','JO':'1f1ef-1f1f4',
+  'PT':'1f1f5-1f1f9','CO':'1f1e8-1f1f4','UZ':'1f1fa-1f1ff','CD':'1f1e8-1f1e9',
+  'HR':'1f1ed-1f1f7','GH':'1f1ec-1f1ed','PA':'1f1f5-1f1e6'
+};
+var OV={'SCT':'https://flagcdn.com/w40/gb-sct.png','ENG':'https://flagcdn.com/w40/gb-eng.png'};
+function fSrc(c){return OV[c]?OV[c]:FM[c]?(TW+FM[c]+'.png'):null;}
+function fEl(c){var s=fSrc(c);return s?'<img class="mf" src="'+s+'" loading="lazy">':'<div class="mfph"></div>';}
+
+// Los 16 cruces — lado A: 0-7, lado B: 8-15
+var R16=[
+  {a:{n:'Sudáfrica',c:'ZA'},b:{n:'Canadá',c:'CA'}},      // 0
+  {a:{n:'Brasil',c:'BR'},b:{n:'Japón',c:'JP'}},            // 1
+  {a:{n:'Alemania',c:'DE'},b:{n:'Paraguay',c:'PY'}},       // 2
+  {a:{n:'Países Bajos',c:'NL'},b:{n:'Marruecos',c:'MA'}}, // 3
+  {a:{n:'Costa de Marfil',c:'CI'},b:{n:'Noruega',c:'NO'}},// 4
+  {a:{n:'Francia',c:'FR'},b:{n:'Suecia',c:'SE'}},          // 5
+  {a:{n:'México',c:'MX'},b:{n:'Ecuador',c:'EC'}},          // 6
+  {a:{n:'Inglaterra',c:'ENG'},b:{n:'RD del Congo',c:'CD'}},// 7
+  {a:{n:'EE. UU.',c:'US'},b:{n:'Bosnia',c:'BA'}},          // 8
+  {a:{n:'Egipto',c:'EG'},b:{n:'Corea del Sur',c:'KR'}},   // 9
+  {a:{n:'España',c:'ES'},b:{n:'Austria',c:'AT'}},          // 10
+  {a:{n:'Portugal',c:'PT'},b:{n:'Ghana',c:'GH'}},          // 11
+  {a:{n:'Bélgica',c:'BE'},b:{n:'Argelia',c:'DZ'}},         // 12
+  {a:{n:'Suiza',c:'CH'},b:{n:'Irán',c:'IR'}},              // 13
+  {a:{n:'Argentina',c:'AR'},b:{n:'Cabo Verde',c:'CV'}},    // 14
+  {a:{n:'Colombia',c:'CO'},b:{n:'Australia',c:'AU'}}       // 15
+];
+
+var W={r16:new Array(16).fill(null),qf:new Array(8).fill(null),sf:new Array(4).fill(null),f:[null,null],champ:null,third:null};
+
+function pick(round,idx,t){
+  if(W[round][idx]&&W[round][idx].n===t.n)W[round][idx]=null;else W[round][idx]=t;
+  casc(round,idx);render();
+}
+function casc(r,i){
+  if(r==='r16'){var q=Math.floor(i/2);W.qf[q]=null;casc('qf',q);}
+  else if(r==='qf'){var s=Math.floor(i/2);W.sf[s]=null;casc('sf',s);}
+  else if(r==='sf'){var f=Math.floor(i/2);W.f[f]=null;W.champ=null;W.third=null;}
+  else if(r==='f'){W.champ=null;}
+}
+function pC(t){W.champ=W.champ&&W.champ.n===t.n?null:t;render();}
+function pT(t){W.third=W.third&&W.third.n===t.n?null:t;render();}
+function resetAll(){W={r16:new Array(16).fill(null),qf:new Array(8).fill(null),sf:new Array(4).fill(null),f:[null,null],champ:null,third:null};render();}
+function gSL(i){
+  var a=i===0?W.sf[0]:W.sf[2],b=i===0?W.sf[1]:W.sf[3],w=W.f[i];
+  if(!w||!a||!b)return null;return w.n===a.n?b:a;
+}
+
+function tr(team,win,lose,oc){
+  if(!team)return '<div class="mt empty"><div class="mfph"></div><span class="mn tbd">Por definir</span></div>';
+  var cls='mt'+(win?' win':'')+(lose?' lose':'');
+  return '<div class="'+cls+'" onclick="'+oc+'">'+fEl(team.c)+'<span class="mn">'+team.n+'</span><span class="mc">&#10003;</span></div>';
+}
+function mCard(a,b,win,round,idx){
+  var wA=win&&a&&win.n===a.n,wB=win&&b&&win.n===b.n;
+  var oA=a?'pick(\''+round+'\','+idx+',{n:\''+a.n.replace(/'/g,"\\'")+'\',c:\''+a.c+'\'})':'';
+  var oB=b?'pick(\''+round+'\','+idx+',{n:\''+b.n.replace(/'/g,"\\'")+'\',c:\''+b.c+'\'})':'';
+  return '<div class="match">'+tr(a,wA,win&&a&&!wA,oA)+tr(b,wB,win&&b&&!wB,oB)+'</div>';
+}
+
+function col(label,items,pfx){
+  var h='<div class="round-col"><div class="round-label">'+label+'</div><div class="round-body">';
+  items.forEach(function(m,i){h+='<div id="'+pfx+'_'+i+'">'+m+'</div>';});
+  h+='</div></div>';
+  return h;
+}
+function cc(id){return '<div class="conn-col" id="cc_'+id+'"><svg id="svgc_'+id+'"></svg></div>';}
+
+function render(){
+  var sl0=gSL(0),sl1=gSL(1);
+  var fA=W.f[0],fB=W.f[1],ch=W.champ,th=W.third;
+  var h='';
+
+  // LADO A: 16avos(0-7) -> octavos(0-3) -> cuartos(0-1) -> semi A
+  var r16a=[],qfa=[],sfa=[];
+  for(var i=0;i<8;i++) r16a.push(mCard(R16[i].a,R16[i].b,W.r16[i],'r16',i));
+  for(var i=0;i<4;i++) qfa.push(mCard(W.r16[i*2],W.r16[i*2+1],W.qf[i],'qf',i));
+  for(var i=0;i<2;i++) sfa.push(mCard(W.qf[i*2],W.qf[i*2+1],W.sf[i],'sf',i));
+  var semA=mCard(W.sf[0],W.sf[1],W.f[0],'f',0);
+
+  h+=col('Dieciseisavos',r16a,'ra');
+  h+=cc('a1');
+  h+=col('Octavos',qfa,'qa');
+  h+=cc('a2');
+  h+=col('Cuartos',sfa,'sa');
+  h+=cc('a3');
+  h+=col('Semifinal',[semA],'fa');
+
+  // CENTRO
+  var ocFA=fA?'pC({n:\''+fA.n.replace(/'/g,"\\'")+'\',c:\''+fA.c+'\'})':'';
+  var ocFB=fB?'pC({n:\''+fB.n.replace(/'/g,"\\'")+'\',c:\''+fB.c+'\'})':'';
+  var ocT0=sl0?'pT({n:\''+sl0.n.replace(/'/g,"\\'")+'\',c:\''+sl0.c+'\'})':'';
+  var ocT1=sl1?'pT({n:\''+sl1.n.replace(/'/g,"\\'")+'\',c:\''+sl1.c+'\'})':'';
+  h+='<div class="ctr-col"><div class="ctr-label">&#127942; Final</div><div class="ctr-body">';
+  h+='<div class="final-card">'+tr(fA,ch&&fA&&ch.n===fA.n,ch&&fA&&ch.n!==fA.n,ocFA)+'<div class="vs-bar">VS</div>'+tr(fB,ch&&fB&&ch.n===fB.n,ch&&fB&&ch.n!==fB.n,ocFB)+'</div>';
+  h+='<div class="champ-box"><div class="champ-lbl">&#127942; Campe&oacute;n</div>';
+  if(ch){var s=fSrc(ch.c);h+=(s?'<img class="champ-flag" src="'+s+'">':'')+'<div class="champ-name">'+ch.n+'</div>';}
+  else h+='<div class="champ-q">?</div>';
+  h+='</div>';
+  h+='<div class="tercer-box"><div class="tercer-lbl">3er Puesto</div>'+tr(sl0,th&&sl0&&th.n===sl0.n,th&&sl0&&th.n!==sl0.n,ocT0)+tr(sl1,th&&sl1&&th.n===sl1.n,th&&sl1&&th.n!==sl1.n,ocT1)+'</div>';
+  h+='</div></div>';
+
+  // LADO B ESPEJO: semi B -> cuartos(2-3) -> octavos(4-7) -> 16avos(8-15)
+  // El orden es: semi, cuartos, octavos, 16avos (espejo del lado A)
+  var semB=mCard(W.sf[2],W.sf[3],W.f[1],'f',1);
+  var sfb=[],qfb=[],r16b=[];
+  for(var i=2;i<4;i++) sfb.push(mCard(W.qf[i*2],W.qf[i*2+1],W.sf[i],'sf',i));
+  for(var i=4;i<8;i++) qfb.push(mCard(W.r16[i*2],W.r16[i*2+1],W.qf[i],'qf',i));
+  for(var i=8;i<16;i++) r16b.push(mCard(R16[i].a,R16[i].b,W.r16[i],'r16',i));
+
+  h+=col('Semifinal',[semB],'fb');
+  h+=cc('b3');
+  h+=col('Cuartos',sfb,'sb');
+  h+=cc('b2');
+  h+=col('Octavos',qfb,'qb');
+  h+=cc('b1');
+  h+=col('Dieciseisavos',r16b,'rb');
+
+  document.getElementById('bracket').innerHTML=h;
+  setTimeout(drawAll,60);
+}
+
+function drawAll(){
+  var LC='rgba(201,168,76,0.28)';
+  // Lado A: de izq a der
+  drawC('a1','ra',8,'qa',4,2,true,LC);
+  drawC('a2','qa',4,'sa',2,2,true,LC);
+  drawC('a3','sa',2,'fa',1,2,true,LC);
+  // Lado B: también de izq a der (semi -> cuartos -> octavos -> 16avos)
+  // pero aquí el "left" es el que está más cerca del centro
+  drawC('b3','fb',1,'sb',2,2,false,LC);
+  drawC('b2','sb',2,'qb',4,2,false,LC);
+  drawC('b1','qb',4,'rb',8,2,false,LC);
+}
+
+// toRight=true: las líneas van del borde izquierdo del svg al derecho
+// toRight=false: las líneas van del borde derecho al izquierdo
+function drawC(svgId,lPfx,lN,rPfx,rN,gs,toRight,color){
+  var svg=document.getElementById('svgc_'+svgId);
+  var cc=document.getElementById('cc_'+svgId);
+  if(!svg||!cc)return;
+  var R=cc.getBoundingClientRect();
+  var W2=Math.max(R.width,30), H=Math.max(R.height,100);
+  svg.setAttribute('viewBox','0 0 '+W2+' '+H);
+  svg.setAttribute('width',W2);svg.setAttribute('height',H);
+  svg.innerHTML='';
+
+  // xFrom = lado donde salen las líneas (del partido izquierdo)
+  // xTo = lado donde llegan (al partido derecho)
+  var xFrom=toRight?0:W2;
+  var xTo=toRight?W2:0;
+  var xMid=W2/2;
+
+  for(var g=0;g<rN;g++){
+    var t1=document.getElementById(lPfx+'_'+(g*gs));
+    var t2=document.getElementById(lPfx+'_'+(g*gs+gs-1));
+    var rEl=document.getElementById(rPfx+'_'+g);
+    if(!t1||!t2||!rEl)continue;
+    var r1=t1.getBoundingClientRect(),r2=t2.getBoundingClientRect(),rR=rEl.getBoundingClientRect();
+    var y1=r1.top+r1.height/2-R.top;
+    var y2=r2.top+r2.height/2-R.top;
+    var yM=(y1+y2)/2;
+    var yR=rR.top+rR.height/2-R.top;
+    ln(svg,xFrom,y1,xMid,y1,color,1.5);
+    ln(svg,xFrom,y2,xMid,y2,color,1.5);
+    ln(svg,xMid,y1,xMid,y2,color,1.5);
+    dt(svg,xMid,yM,3,color);
+    ln(svg,xMid,yM,xTo,yR,color,1.5);
+    dt(svg,xTo,yR,2.5,'rgba(201,168,76,0.5)');
+  }
+}
+function ln(svg,x1,y1,x2,y2,col,w){
+  var l=document.createElementNS('http://www.w3.org/2000/svg','line');
+  l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
+  l.setAttribute('stroke',col);l.setAttribute('stroke-width',w||1.5);svg.appendChild(l);
+}
+function dt(svg,x,y,r,col){
+  var c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r',r);c.setAttribute('fill',col);svg.appendChild(c);
+}
+
+async function compartir(){
+  var nombre=document.getElementById('userName').value.trim();
+  if(!nombre){document.getElementById('userName').classList.add('err');document.getElementById('userName').focus();return;}
+  document.getElementById('overlay').classList.add('show');
+  await new Promise(r=>setTimeout(r,150));
+  try{
+    var el=document.getElementById('bracket');
+    var c=await html2canvas(el,{backgroundColor:'#0a0a0a',scale:1.5,useCORS:true,logging:false});
+    var fin=document.createElement('canvas');
+    fin.width=c.width;fin.height=c.height+56;
+    var ctx=fin.getContext('2d');
+    ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,fin.width,fin.height);
+    var grd=ctx.createLinearGradient(0,0,fin.width,0);
+    grd.addColorStop(0,'#8B6914');grd.addColorStop(.5,'#F5D78E');grd.addColorStop(1,'#8B6914');
+    ctx.fillStyle=grd;ctx.fillRect(0,0,fin.width,3);
+    ctx.fillStyle='#f0f0f0';ctx.font='bold 20px sans-serif';ctx.textAlign='left';
+    ctx.fillText(nombre,16,36);
+    ctx.fillStyle='#666';ctx.font='11px sans-serif';ctx.textAlign='right';
+    ctx.fillText('Llaves Mundial 2026  ·  '+new Date().toLocaleDateString('es-EC'),fin.width-16,36);
+    ctx.drawImage(c,0,56);
+    document.getElementById('overlay').classList.remove('show');
+    var blob=await new Promise(r=>fin.toBlob(r,'image/png'));
+    var file=new File([blob],'llaves_mundial2026.png',{type:'image/png'});
+    var mob=/Android|iPhone|iPad/i.test(navigator.userAgent);
+    if(mob&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file]});}
+    else{var a=document.createElement('a');a.download='llaves_mundial2026.png';a.href=URL.createObjectURL(blob);a.click();setTimeout(function(){window.open('https://wa.me/','_blank');},800);}
+  }catch(e){document.getElementById('overlay').classList.remove('show');}
+}
+
+window.addEventListener('resize',function(){setTimeout(drawAll,50);});
+render();
+</script>
+</body>
+</html>
