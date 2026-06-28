@@ -12,7 +12,7 @@
   --bg:#0a0a0a;--bg2:#141414;--bg3:#1e1e1e;
   --bd:rgba(255,255,255,.08);--bd2:rgba(255,255,255,.14);
   --txt:#f0f0f0;--txt2:#666;--txt3:#333;
-  --green:#00c85a;--green-dk:#009944;
+  --green:#00c85a;--green-dk:#009944;--red:#e53935;
   --body:'DM Sans',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -70,12 +70,21 @@ body{background:var(--bg);color:var(--txt);font-family:var(--body);min-height:10
 .champ-q{font-size:20px;color:var(--txt3)}
 .tercer-box{width:100%;background:var(--bg2);border:1px solid var(--bd2);border-radius:6px;overflow:hidden}
 .tercer-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--txt2);text-align:center;padding:4px;border-bottom:1px solid var(--bd);text-transform:uppercase}
+/* error box */
+.err-box{display:none;margin:1rem;background:rgba(229,57,53,.1);border:1px solid rgba(229,57,53,.3);border-radius:10px;padding:14px 18px}
+.err-box.show{display:block}
+.err-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.err-list{list-style:none;padding:0;margin:0}
+.err-list li{font-size:12px;color:#f0a0a0;padding:4px 0 4px 16px;position:relative;border-bottom:1px solid rgba(229,57,53,.1)}
+.err-list li:last-child{border-bottom:none}
+.err-list li::before{content:'›';position:absolute;left:0;color:var(--red);font-size:16px;line-height:1.2}
+/* nombre */
 .name-sec{background:var(--bg2);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:1rem 1.5rem;margin:1rem;text-align:center}
 .name-sec p{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-.name-inp{background:var(--bg3);border:1px solid var(--bd);border-radius:6px;padding:10px 14px;font-family:var(--body);font-size:14px;color:var(--txt);width:100%;max-width:300px;text-align:center;outline:none}
+.name-inp{background:var(--bg3);border:1px solid var(--bd);border-radius:6px;padding:10px 14px;font-family:var(--body);font-size:14px;color:var(--txt);width:100%;max-width:300px;text-align:center;outline:none;transition:border-color .15s}
 .name-inp:focus{border-color:var(--gold)}
 .name-inp::placeholder{color:var(--txt2)}
-.name-inp.err{border-color:#e53935!important}
+.name-inp.err{border-color:var(--red)!important}
 .share-fixed{position:sticky;bottom:1.5rem;display:flex;justify-content:center;margin-top:1rem;z-index:10;pointer-events:none}
 .btn-share{background:var(--green);color:#000;border:none;padding:13px 30px;border-radius:50px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(0,200,90,.4);transition:background .15s,transform .1s;pointer-events:all}
 .btn-share:hover{background:var(--green-dk)}
@@ -112,9 +121,15 @@ canvas{display:none}
   <button class="btn-reset" onclick="resetAll()">&#8635; Reiniciar todo</button>
 </div>
 <div class="bracket-outer"><div class="bracket" id="bracket"></div></div>
+
+<div class="err-box" id="errBox">
+  <div class="err-title">&#9888; Completa lo siguiente antes de compartir:</div>
+  <ul class="err-list" id="errList"></ul>
+</div>
+
 <div class="name-sec">
   <p>&#9998; Tu nombre</p>
-  <input class="name-inp" id="userName" type="text" placeholder="Escribe tu nombre..." maxlength="30">
+  <input class="name-inp" id="userName" type="text" placeholder="Escribe tu nombre..." maxlength="30" oninput="clearErr()">
 </div>
 <div class="share-fixed">
   <button class="btn-share" onclick="compartir()">&#128172; Compartir en WhatsApp</button>
@@ -163,7 +178,7 @@ var W={r16:new Array(16).fill(null),qf:new Array(8).fill(null),sf:new Array(4).f
 
 function pick(round,idx,t){
   if(W[round][idx]&&W[round][idx].n===t.n)W[round][idx]=null;else W[round][idx]=t;
-  casc(round,idx);render();
+  casc(round,idx);clearErr();render();
 }
 function casc(r,i){
   if(r==='r16'){var q=Math.floor(i/2);W.qf[q]=null;casc('qf',q);}
@@ -171,13 +186,21 @@ function casc(r,i){
   else if(r==='sf'){var f=Math.floor(i/2);W.f[f]=null;W.champ=null;W.third=null;}
   else if(r==='f'){W.champ=null;}
 }
-function pC(t){W.champ=W.champ&&W.champ.n===t.n?null:t;render();}
-function pT(t){W.third=W.third&&W.third.n===t.n?null:t;render();}
-function resetAll(){W={r16:new Array(16).fill(null),qf:new Array(8).fill(null),sf:new Array(4).fill(null),f:[null,null],champ:null,third:null};render();}
+function pC(t){W.champ=W.champ&&W.champ.n===t.n?null:t;clearErr();render();}
+function pT(t){W.third=W.third&&W.third.n===t.n?null:t;clearErr();render();}
+function resetAll(){
+  W={r16:new Array(16).fill(null),qf:new Array(8).fill(null),sf:new Array(4).fill(null),f:[null,null],champ:null,third:null};
+  clearErr();render();
+}
 function gSL(i){
   var a=i===0?W.sf[0]:W.sf[2],b=i===0?W.sf[1]:W.sf[3],w=W.f[i];
   if(!w||!a||!b)return null;return w.n===a.n?b:a;
 }
+function clearErr(){
+  document.getElementById('errBox').classList.remove('show');
+  document.getElementById('userName').classList.remove('err');
+}
+
 function tr(team,win,lose,oc){
   if(!team)return '<div class="mt empty"><div class="mfph"></div><span class="mn tbd">Por definir</span></div>';
   var cls='mt'+(win?' win':'')+(lose?' lose':'');
@@ -192,31 +215,23 @@ function mCard(a,b,win,round,idx){
 function col(label,items,pfx){
   var h='<div class="round-col"><div class="round-label">'+label+'</div><div class="round-body">';
   items.forEach(function(m,i){h+='<div id="'+pfx+'_'+i+'">'+m+'</div>';});
-  h+='</div></div>';
-  return h;
+  h+='</div></div>';return h;
 }
 function cc(id){return '<div class="conn-col" id="cc_'+id+'"><svg id="svgc_'+id+'"></svg></div>';}
 
 function render(){
   var sl0=gSL(0),sl1=gSL(1),fA=W.f[0],fB=W.f[1],ch=W.champ,th=W.third;
   var h='';
-
-  // LADO A (izq->der): 16avos -> octavos -> cuartos -> semi
   var r16a=[],qfa=[],sfa=[];
   for(var i=0;i<8;i++) r16a.push(mCard(R16[i].a,R16[i].b,W.r16[i],'r16',i));
   for(var i=0;i<4;i++) qfa.push(mCard(W.r16[i*2],W.r16[i*2+1],W.qf[i],'qf',i));
   for(var i=0;i<2;i++) sfa.push(mCard(W.qf[i*2],W.qf[i*2+1],W.sf[i],'sf',i));
   var semA=mCard(W.sf[0],W.sf[1],W.f[0],'f',0);
-
-  h+=col('Dieciseisavos',r16a,'ra');
-  h+=cc('a1'); // ra -> qa
-  h+=col('Octavos',qfa,'qa');
-  h+=cc('a2'); // qa -> sa
-  h+=col('Cuartos',sfa,'sa');
-  h+=cc('a3'); // sa -> fa
+  h+=col('Dieciseisavos',r16a,'ra');h+=cc('a1');
+  h+=col('Octavos',qfa,'qa');h+=cc('a2');
+  h+=col('Cuartos',sfa,'sa');h+=cc('a3');
   h+=col('Semifinal',[semA],'fa');
 
-  // CENTRO
   var ocFA=fA?'pC({n:\''+fA.n.replace(/'/g,"\\'")+'\',c:\''+fA.c+'\'})':'';
   var ocFB=fB?'pC({n:\''+fB.n.replace(/'/g,"\\'")+'\',c:\''+fB.c+'\'})':'';
   var ocT0=sl0?'pT({n:\''+sl0.n.replace(/'/g,"\\'")+'\',c:\''+sl0.c+'\'})':'';
@@ -230,28 +245,14 @@ function render(){
   h+='<div class="tercer-box"><div class="tercer-lbl">3er Puesto</div>'+tr(sl0,th&&sl0&&th.n===sl0.n,th&&sl0&&th.n!==sl0.n,ocT0)+tr(sl1,th&&sl1&&th.n===sl1.n,th&&sl1&&th.n!==sl1.n,ocT1)+'</div>';
   h+='</div></div>';
 
-  // LADO B ESPEJO (der->izq desde el centro):
-  // semi -> cuartos -> octavos -> 16avos
-  // Los conectores deben unir: fb->sb (semi a cuartos), sb->qb (cuartos a octavos), qb->rb (octavos a 16avos)
-  // En el layout el conector está ENTRE las columnas, la columna derecha alimenta a la izquierda
-  // Pero visualmente las líneas van de la columna más cercana al centro hacia afuera
-  // Entonces: el conector entre 'fb' y 'sb' une fb(izq) con sb(der) -> toRight=true
-  // el conector entre 'sb' y 'qb' une sb(izq) con qb(der) -> toRight=true
-  // el conector entre 'qb' y 'rb' une qb(izq) con rb(der) -> toRight=true
-  // PERO los grupos se invierten: en lado B, 1 partido de fb genera 2 de sb, etc.
-  // Entonces fb es el "pequeño" y sb es el "grande"
   var semB=mCard(W.sf[2],W.sf[3],W.f[1],'f',1);
   var sfb=[],qfb=[],r16b=[];
   for(var i=2;i<4;i++) sfb.push(mCard(W.qf[i*2],W.qf[i*2+1],W.sf[i],'sf',i));
   for(var i=4;i<8;i++) qfb.push(mCard(W.r16[i*2],W.r16[i*2+1],W.qf[i],'qf',i));
   for(var i=8;i<16;i++) r16b.push(mCard(R16[i].a,R16[i].b,W.r16[i],'r16',i));
-
-  h+=col('Semifinal',[semB],'fb');
-  h+=cc('b3'); // fb(1) -> sb(2): from=fb, to=sb, toRight=true, gs=1
-  h+=col('Cuartos',sfb,'sb');
-  h+=cc('b2'); // sb(2) -> qb(4): from=sb, to=qb, toRight=true, gs=1
-  h+=col('Octavos',qfb,'qb');
-  h+=cc('b1'); // qb(4) -> rb(8): from=qb, to=rb, toRight=true, gs=1
+  h+=col('Semifinal',[semB],'fb');h+=cc('b3');
+  h+=col('Cuartos',sfb,'sb');h+=cc('b2');
+  h+=col('Octavos',qfb,'qb');h+=cc('b1');
   h+=col('Dieciseisavos',r16b,'rb');
 
   document.getElementById('bracket').innerHTML=h;
@@ -260,27 +261,14 @@ function render(){
 
 function drawAll(){
   var LC='rgba(201,168,76,0.3)';
-  // LADO A: cada conector agrupa pares de la columna izquierda hacia 1 de la derecha
-  // ra(8)->qa(4): groupSize=2, desde ra hacia qa
   drawConn('a1','ra',8,'qa',4,2,true,LC);
-  // qa(4)->sa(2): groupSize=2
   drawConn('a2','qa',4,'sa',2,2,true,LC);
-  // sa(2)->fa(1): groupSize=2
   drawConn('a3','sa',2,'fa',1,2,true,LC);
-
-  // LADO B: espejo. Ahora la columna "izquierda" en el SVG es la más cercana al centro
-  // pero en la lógica, 1 partido de fb "genera" 2 de sb, 2 de sb generan 4 de qb, etc.
-  // El SVG está entre fb y sb: fb está a la izquierda, sb a la derecha
-  // Queremos mostrar que fb(1) se divide en sb(2)
-  // Es decir: desde fb hacia sb -> groupSize=2 pero ahora es 1->2 (inverso)
-  // Usaremos la misma función pero invirtiendo: "derecha" agrupa hacia "izquierda"
   drawConnInv('b3','fb',1,'sb',2,2,LC);
   drawConnInv('b2','sb',2,'qb',4,2,LC);
   drawConnInv('b1','qb',4,'rb',8,2,LC);
 }
 
-// drawConn: los items de lPfx se agrupan de a gs y apuntan a 1 item de rPfx
-// toRight=true: el SVG está entre lPfx(izq) y rPfx(der)
 function drawConn(svgId,lPfx,lN,rPfx,rN,gs,toRight,color){
   var svg=document.getElementById('svgc_'+svgId);
   var cc=document.getElementById('cc_'+svgId);
@@ -288,9 +276,8 @@ function drawConn(svgId,lPfx,lN,rPfx,rN,gs,toRight,color){
   var R=cc.getBoundingClientRect();
   var W2=Math.max(R.width,30),H=Math.max(R.height,100);
   svg.setAttribute('viewBox','0 0 '+W2+' '+H);
-  svg.setAttribute('width',W2);svg.setAttribute('height',H);
-  svg.innerHTML='';
-  var xFrom=toRight?0:W2, xTo=toRight?W2:0, xMid=W2/2;
+  svg.setAttribute('width',W2);svg.setAttribute('height',H);svg.innerHTML='';
+  var xFrom=toRight?0:W2,xTo=toRight?W2:0,xMid=W2/2;
   for(var g=0;g<rN;g++){
     var e1=document.getElementById(lPfx+'_'+(g*gs));
     var e2=document.getElementById(lPfx+'_'+(g*gs+gs-1));
@@ -301,19 +288,12 @@ function drawConn(svgId,lPfx,lN,rPfx,rN,gs,toRight,color){
     var y2=r2.top+r2.height/2-R.top;
     var yM=(y1+y2)/2;
     var yR=rR.top+rR.height/2-R.top;
-    ln(svg,xFrom,y1,xMid,y1,color);
-    ln(svg,xFrom,y2,xMid,y2,color);
-    ln(svg,xMid,y1,xMid,y2,color);
-    dt(svg,xMid,yM,3,color);
-    ln(svg,xMid,yM,xTo,yR,color);
-    dt(svg,xTo,yR,2.5,'rgba(201,168,76,0.55)');
+    ln(svg,xFrom,y1,xMid,y1,color);ln(svg,xFrom,y2,xMid,y2,color);
+    ln(svg,xMid,y1,xMid,y2,color);dt(svg,xMid,yM,3,color);
+    ln(svg,xMid,yM,xTo,yR,color);dt(svg,xTo,yR,2.5,'rgba(201,168,76,0.55)');
   }
 }
 
-// drawConnInv: para el lado B. rPfx tiene MÁS items que lPfx.
-// 1 item de lPfx "expande" a gs items de rPfx
-// El SVG está entre lPfx(izq) y rPfx(der)
-// Líneas: desde lPfx hacia la derecha, bifurcando hacia los items de rPfx
 function drawConnInv(svgId,lPfx,lN,rPfx,rN,gs,color){
   var svg=document.getElementById('svgc_'+svgId);
   var cc=document.getElementById('cc_'+svgId);
@@ -321,16 +301,13 @@ function drawConnInv(svgId,lPfx,lN,rPfx,rN,gs,color){
   var R=cc.getBoundingClientRect();
   var W2=Math.max(R.width,30),H=Math.max(R.height,100);
   svg.setAttribute('viewBox','0 0 '+W2+' '+H);
-  svg.setAttribute('width',W2);svg.setAttribute('height',H);
-  svg.innerHTML='';
+  svg.setAttribute('width',W2);svg.setAttribute('height',H);svg.innerHTML='';
   var xMid=W2/2;
-  // Para cada item de lPfx, conecta con gs items de rPfx
   for(var g=0;g<lN;g++){
     var eL=document.getElementById(lPfx+'_'+g);
     if(!eL)continue;
     var rL=eL.getBoundingClientRect();
     var yL=rL.top+rL.height/2-R.top;
-    // los gs items de rPfx correspondientes
     var e1=document.getElementById(rPfx+'_'+(g*gs));
     var e2=document.getElementById(rPfx+'_'+(g*gs+gs-1));
     if(!e1||!e2)continue;
@@ -338,16 +315,11 @@ function drawConnInv(svgId,lPfx,lN,rPfx,rN,gs,color){
     var y1=r1.top+r1.height/2-R.top;
     var y2=r2.top+r2.height/2-R.top;
     var yM=(y1+y2)/2;
-    // línea horizontal desde lPfx (izq) hacia el punto medio
     ln(svg,0,yL,xMid,yM,color);
-    // línea vertical en el medio
     ln(svg,xMid,y1,xMid,y2,color);
-    // líneas horizontales hacia cada item de rPfx (der)
-    ln(svg,xMid,y1,W2,y1,color);
-    ln(svg,xMid,y2,W2,y2,color);
+    ln(svg,xMid,y1,W2,y1,color);ln(svg,xMid,y2,W2,y2,color);
     dt(svg,xMid,yM,3,color);
-    dt(svg,W2,y1,2.5,'rgba(201,168,76,0.55)');
-    dt(svg,W2,y2,2.5,'rgba(201,168,76,0.55)');
+    dt(svg,W2,y1,2.5,'rgba(201,168,76,0.55)');dt(svg,W2,y2,2.5,'rgba(201,168,76,0.55)');
   }
 }
 
@@ -363,7 +335,32 @@ function dt(svg,x,y,r,col){
 
 async function compartir(){
   var nombre=document.getElementById('userName').value.trim();
-  if(!nombre){document.getElementById('userName').classList.add('err');document.getElementById('userName').focus();return;}
+  var errores=[];
+
+  if(!nombre){
+    errores.push('Escribe tu nombre abajo');
+    document.getElementById('userName').classList.add('err');
+  }
+  var r16falt=0;for(var i=0;i<16;i++){if(!W.r16[i])r16falt++;}
+  if(r16falt>0) errores.push('Faltan '+r16falt+' resultado(s) en dieciseisavos de final');
+  var qffalt=0;for(var i=0;i<8;i++){if(!W.qf[i])qffalt++;}
+  if(qffalt>0) errores.push('Faltan '+qffalt+' resultado(s) en octavos de final');
+  var sffalt=0;for(var i=0;i<4;i++){if(!W.sf[i])sffalt++;}
+  if(sffalt>0) errores.push('Faltan '+sffalt+' resultado(s) en cuartos de final');
+  if(!W.f[0]||!W.f[1]) errores.push('Faltan resultado(s) en las semifinales');
+  if(!W.champ) errores.push('Selecciona el campe\u00f3n tocando un equipo en la final');
+  if(!W.third) errores.push('Selecciona el ganador del 3er puesto');
+
+  if(errores.length>0){
+    var box=document.getElementById('errBox');
+    var list=document.getElementById('errList');
+    list.innerHTML='';
+    errores.forEach(function(e){var li=document.createElement('li');li.textContent=e;list.appendChild(li);});
+    box.classList.add('show');
+    box.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
   document.getElementById('overlay').classList.add('show');
   await new Promise(r=>setTimeout(r,150));
   try{
@@ -389,6 +386,7 @@ async function compartir(){
     else{var a=document.createElement('a');a.download='llaves_mundial2026.png';a.href=URL.createObjectURL(blob);a.click();setTimeout(function(){window.open('https://wa.me/','_blank');},800);}
   }catch(e){document.getElementById('overlay').classList.remove('show');}
 }
+
 window.addEventListener('resize',function(){setTimeout(drawAll,50);});
 render();
 </script>
