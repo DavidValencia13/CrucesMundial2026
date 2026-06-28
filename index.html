@@ -46,6 +46,13 @@ body{background:var(--bg);color:var(--txt);font-family:var(--body);min-height:10
 .round-col.err-highlight .round-label{color:var(--red)}
 .round-body{flex:1;display:flex;flex-direction:column;justify-content:space-around;padding:6px}
 .match{border:1px solid var(--bd2);border-radius:6px;overflow:hidden;background:var(--bg2);transition:border-color .2s}
+.match .mt:first-child{background:#0f1a14;border-left:3px solid rgba(0,200,90,0.4)}
+.match .mt:last-child{background:#0f1220;border-left:3px solid rgba(26,86,219,0.4)}
+.match .mt:first-child:hover:not(.empty){background:#142018}
+.match .mt:last-child:hover:not(.empty){background:#141828}
+.match .mt.win:first-child{background:rgba(0,200,90,.15)!important;border-left:3px solid var(--green)!important}
+.match .mt.win:last-child{background:rgba(26,86,219,.2)!important;border-left:3px solid #1a56db!important}
+.match .mt.lose{opacity:.25}
 .match.err-match{border-color:rgba(229,57,53,.5)!important}
 .mt{display:flex;align-items:center;gap:7px;padding:6px 8px;cursor:pointer;transition:background .12s;border-bottom:1px solid var(--bd);min-height:34px}
 .mt:last-child{border-bottom:none}
