@@ -66,7 +66,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--body);min-height:10
 .champ-box{text-align:center;padding:10px 8px;width:100%;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);border-radius:8px}
 .champ-lbl{font-family:'Barlow Condensed',sans-serif;font-size:9px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
 .champ-flag{width:28px;height:21px;object-fit:contain;border-radius:2px;margin:0 auto 4px;display:block}
-.champ-name{font-family:'Anton',sans-serif;font-size:20px;background:linear-gradient(135deg,var(--gold-dk),var(--gold-lt),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
+.champ-name{font-family:'Anton',sans-serif;font-size:18px;color:#fff;line-height:1.2;text-shadow:0 0 20px rgba(201,168,76,.6)}
 .champ-q{font-size:20px;color:var(--txt3)}
 .tercer-box{width:100%;background:var(--bg2);border:1px solid var(--bd2);border-radius:6px;overflow:hidden}
 .tercer-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--txt2);text-align:center;padding:4px;border-bottom:1px solid var(--bd);text-transform:uppercase}
@@ -365,7 +365,8 @@ async function compartir(){
   await new Promise(r=>setTimeout(r,150));
   try{
     var el=document.getElementById('bracket');
-    var c=await html2canvas(el,{backgroundColor:'#0a0a0a',scale:1.5,useCORS:true,logging:false});
+    var fullW=el.scrollWidth;
+    var c=await html2canvas(el,{backgroundColor:'#0a0a0a',scale:2,useCORS:true,logging:false,width:fullW,windowWidth:fullW+200});
     var fin=document.createElement('canvas');
     fin.width=c.width;fin.height=c.height+56;
     var ctx=fin.getContext('2d');
